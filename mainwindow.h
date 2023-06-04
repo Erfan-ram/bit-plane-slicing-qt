@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <vector>
+#include <opencv2/opencv.hpp>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,11 +18,13 @@ public:
     ~MainWindow();
 
 private slots:
-    void openPicture();
+    void onClicked();
+    std::vector<cv::Mat> GenerateBit();
 //    void generateBitPlanes();
 
 private:
     Ui::MainWindow *ui;
+    std::vector<cv::Mat> BitPlaneimages;
 //    cv::Mat originalImage;
 };
 #endif // MAINWINDOW_H

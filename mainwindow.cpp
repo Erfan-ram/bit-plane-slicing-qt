@@ -3,14 +3,14 @@
 
 #include <QFileDialog>
 #include <QDebug>
-#include <opencv2/opencv.hpp>
+//#include <opencv2/opencv.hpp>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    connect(ui->openbut, &QPushButton::clicked, this, &MainWindow::openPicture);
+    connect(ui->openbut, &QPushButton::clicked, this, &MainWindow::onClicked);
 }
 
 MainWindow::~MainWindow()
@@ -18,7 +18,25 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::openPicture()
+void MainWindow::onClicked(){
+QObject* but = QObject::sender();
+
+if (but==ui->openbut){
+    GenerateBit();
+    if (BitPlaneimages.empty()==true){
+        qDebug() <<"vector empty";
+        return ;
+    }
+    else
+        qDebug() <<"vector full";
+}
+
+else
+    qDebug() <<"not clicekd";
+
+}
+
+std::vector<cv::Mat> MainWindow::GenerateBit()
 {
     // Open file dialog to choose an image
     QString imagePath = QFileDialog::getOpenFileName(this, "Open Image", "", "Image Files (*.png *.jpg *.jpeg)");
@@ -26,7 +44,7 @@ void MainWindow::openPicture()
     // Check if a valid image was selected
     if (imagePath.isEmpty()) {
         qDebug() << "No image selected.";
-        return;
+        return std::vector<cv::Mat>(); // Return an empty vector
     }
 
     // Load the image using OpenCV
@@ -35,22 +53,23 @@ void MainWindow::openPicture()
     // Check if the image was loaded successfully
     if (image.empty()) {
         qDebug() << "Failed to load image!";
-        return;
+        return std::vector<cv::Mat>(); // Return an empty vector
     }
 
     // Perform bit plane slicing
-    cv::Mat slicedImage(image.rows, image.cols, CV_8UC1);
+    if (!BitPlaneimages.empty())
+        BitPlaneimages.clear();
 
     for (int plane = 0; plane < 8; ++plane) {
+        cv::Mat slicedImage(image.rows, image.cols, CV_8UC1);
         for (int i = 0; i < image.rows; ++i) {
             for (int j = 0; j < image.cols; ++j) {
                 slicedImage.at<uchar>(i, j) = (image.at<uchar>(i, j) >> plane) & 1;
                 slicedImage.at<uchar>(i, j) *= 255;
             }
         }
-
-        // Display the sliced image
-        cv::imshow("Bit Plane " + std::to_string(plane), slicedImage);
-        cv::waitKey(0);
+        BitPlaneimages.push_back(slicedImage);
     }
+
+    return BitPlaneimages;
 }
