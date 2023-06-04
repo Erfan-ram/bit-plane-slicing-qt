@@ -3,14 +3,14 @@
 
 #include <QFileDialog>
 #include <QDebug>
-//#include <opencv2/opencv.hpp>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setupLabels();
 
-    connect(ui->openbut, &QPushButton::clicked, this, &MainWindow::onClicked);
+    connect(ui->BitPlane, &QPushButton::clicked, this, &MainWindow::onClicked);
 }
 
 MainWindow::~MainWindow()
@@ -19,21 +19,49 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::onClicked(){
-QObject* but = QObject::sender();
+QObject* ChosenBut = QObject::sender();
 
-if (but==ui->openbut){
+if (ChosenBut==ui->BitPlane){
     GenerateBit();
     if (BitPlaneimages.empty()==true){
         qDebug() <<"vector empty";
         return ;
     }
-    else
-        qDebug() <<"vector full";
+    else{
+        std::vector<cv::Mat>::iterator eachBitSlice;
+        std::vector<QLabel*>::iterator eachLabel;
+        eachLabel = BitPlaneLables.begin();
+        for (eachBitSlice= BitPlaneimages.begin() ;eachBitSlice != BitPlaneimages.end() ; ++eachBitSlice, ++eachLabel ) {
+            QLabel* label = *eachLabel;
+
+
+            QImage convertedImage(eachBitSlice->data, eachBitSlice->cols, eachBitSlice->rows, eachBitSlice->step, QImage::Format_Grayscale8);
+
+            label->setPixmap(QPixmap::fromImage(convertedImage));
+//            cv::imshow("bit",*eachBitSlice);
+//            cv::waitKey(0);
+        }
+    }
 }
 
 else
     qDebug() <<"not clicekd";
 
+}
+
+void MainWindow::setupLabels(){
+    BitPlaneLables.push_back(ui->bitPlane1);
+    BitPlaneLables.push_back(ui->bitPlane2);
+    BitPlaneLables.push_back(ui->bitPlane3);
+    BitPlaneLables.push_back(ui->bitPlane4);
+    BitPlaneLables.push_back(ui->bitPlane5);
+    BitPlaneLables.push_back(ui->bitPlane6);
+    BitPlaneLables.push_back(ui->bitPlane7);
+    BitPlaneLables.push_back(ui->bitPlane8);
+
+    for (auto label : BitPlaneLables) {
+        label->setScaledContents(true);
+    }
 }
 
 std::vector<cv::Mat> MainWindow::GenerateBit()
