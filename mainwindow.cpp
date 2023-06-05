@@ -3,7 +3,6 @@
 
 #include <QFileDialog>
 #include <QDebug>
-#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -11,18 +10,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setupLabels();
 
+    webOBJ = new webcamwindow(this);
+
     connect(ui->BitPlane, &QPushButton::clicked, this, &MainWindow::onClicked);
+    connect(ui->LIveBut, &QPushButton::clicked, this , &MainWindow::OpenWebcamWindow);
+    connect(webOBJ, &webcamwindow::rejected, this, &MainWindow::closedWebcamWindow);
 
-    capture.open(0);
-        if (!capture.isOpened())
-        {
-            std::cout<<"can not open webcam bro";
-            return;
-        }
-
-        // Set up the timer to update the frame
-//        connect(&timer, &QTimer::timeout, this, &MainWindow::updateFrame);
-//        timer.start(33); // 30 FPS
 }
 
 MainWindow::~MainWindow()
@@ -144,25 +137,12 @@ std::vector<cv::Mat> MainWindow::GenerateBit()
 //    ui->webcamlab->setScaledContents(true);
 //}
 
-void MainWindow::updateFrame()
-{
-    cv::Mat frame;
-    capture >> frame;
-    if (frame.empty())
-        return;
-
-    // Convert the image format for displaying in the QLabel
-//    cv::cvtColor(frame, frame, cv::COLOR_BGR2RGB);
-
-    cv::cvtColor(frame, frame, cv::COLOR_BGR2GRAY);
-
-    // Create a QImage from the OpenCV frame
-//    QImage qimage(frame.data, frame.cols, frame.rows, frame.step, QImage::Format_RGB888);
-    QImage qimage(frame.data, frame.cols, frame.rows, frame.step, QImage::Format_Grayscale8);
-
-
-    // Display the QImage in the QLabel
-    ui->webcamlab->setPixmap(QPixmap::fromImage(qimage));
-    ui->webcamlab->setScaledContents(true);
+void MainWindow::OpenWebcamWindow(){
+    ui->BitPlane->setEnabled(false);
+    webOBJ->show();
+    webOBJ->startFrameCapture();
 }
-
+void MainWindow::closedWebcamWindow(){
+    webOBJ->stopFrameCapture();
+    ui->BitPlane->setEnabled(true);
+}

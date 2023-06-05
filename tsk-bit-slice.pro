@@ -13,13 +13,16 @@ LIBS += `pkg-config --cflags --libs opencv4`
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    webcamwindow.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    webcamwindow.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    webcamwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

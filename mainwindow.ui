@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1399</width>
-    <height>674</height>
+    <width>1329</width>
+    <height>659</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>1130</x>
-      <y>20</y>
+      <y>110</y>
       <width>181</width>
       <height>81</height>
      </rect>
@@ -115,17 +115,20 @@
      </item>
     </layout>
    </widget>
-   <widget class="QLabel" name="webcamlab">
+   <widget class="QPushButton" name="LIveBut">
     <property name="geometry">
      <rect>
-      <x>1150</x>
-      <y>290</y>
-      <width>211</width>
-      <height>301</height>
+      <x>1130</x>
+      <y>450</y>
+      <width>181</width>
+      <height>81</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
     <property name="text">
-     <string/>
+     <string>Live Mode</string>
     </property>
    </widget>
   </widget>
@@ -134,7 +137,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1399</width>
+     <width>1329</width>
      <height>22</height>
     </rect>
    </property>
