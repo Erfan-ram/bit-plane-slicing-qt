@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1335</width>
-    <height>668</height>
+    <width>1399</width>
+    <height>674</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -115,13 +115,26 @@
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="webcamlab">
+    <property name="geometry">
+     <rect>
+      <x>1150</x>
+      <y>290</y>
+      <width>211</width>
+      <height>301</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1335</width>
+     <width>1399</width>
      <height>22</height>
     </rect>
    </property>

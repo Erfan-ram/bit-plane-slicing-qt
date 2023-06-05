@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <vector>
+#include <QTimer>
 #include <opencv2/opencv.hpp>
 
 QT_BEGIN_NAMESPACE
@@ -22,6 +23,7 @@ private slots:
     void setupLabels();
     void onClicked();
     std::vector<cv::Mat> GenerateBit();
+    void updateFrame();
 
 //    void generateBitPlanes();
 
@@ -29,6 +31,8 @@ private:
     Ui::MainWindow *ui;
     std::vector<cv::Mat> BitPlaneimages;
     std::vector<QLabel*> BitPlaneLables;
+    cv::VideoCapture capture;
+    QTimer timer;
 //    cv::Mat originalImage;
 };
 #endif // MAINWINDOW_H

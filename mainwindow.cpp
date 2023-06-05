@@ -3,6 +3,7 @@
 
 #include <QFileDialog>
 #include <QDebug>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -11,6 +12,17 @@ MainWindow::MainWindow(QWidget *parent)
     setupLabels();
 
     connect(ui->BitPlane, &QPushButton::clicked, this, &MainWindow::onClicked);
+
+    capture.open(0);
+        if (!capture.isOpened())
+        {
+            std::cout<<"can not open webcam bro";
+            return;
+        }
+
+        // Set up the timer to update the frame
+//        connect(&timer, &QTimer::timeout, this, &MainWindow::updateFrame);
+//        timer.start(33); // 30 FPS
 }
 
 MainWindow::~MainWindow()
@@ -101,3 +113,56 @@ std::vector<cv::Mat> MainWindow::GenerateBit()
 
     return BitPlaneimages;
 }
+
+//void MainWindow::updateFrame()
+//{
+//    cv::Mat frame;
+//    capture >> frame;
+//    if (frame.empty())
+//        return;
+
+//    // Convert the image format for processing
+//    cv::cvtColor(frame, frame, cv::COLOR_BGR2GRAY);
+
+//    cv::Mat bitPlanes[8];
+//       for (int plane = 0; plane < 8; ++plane) {
+//           bitPlanes[plane] = cv::Mat(frame.rows, frame.cols, CV_8UC1);
+//           for (int i = 0; i < frame.rows; ++i) {
+//               for (int j = 0; j < frame.cols; ++j) {
+//                   bitPlanes[plane].at<uchar>(i, j) = (frame.at<uchar>(i, j) >> plane) & 1;
+//                   bitPlanes[plane].at<uchar>(i, j) *= 255;
+//               }
+//           }
+////           displayImage(bitPlanes[plane]);
+//       }
+
+//    // Create a QImage from the OpenCV frame
+//    QImage qimage(redFrame.data, redFrame.cols, redFrame.rows, redFrame.step, QImage::Format_RGB888);
+
+//    // Display the QImage in the QLabel
+//    ui->webcamlab->setPixmap(QPixmap::fromImage(qimage));
+//    ui->webcamlab->setScaledContents(true);
+//}
+
+void MainWindow::updateFrame()
+{
+    cv::Mat frame;
+    capture >> frame;
+    if (frame.empty())
+        return;
+
+    // Convert the image format for displaying in the QLabel
+//    cv::cvtColor(frame, frame, cv::COLOR_BGR2RGB);
+
+    cv::cvtColor(frame, frame, cv::COLOR_BGR2GRAY);
+
+    // Create a QImage from the OpenCV frame
+//    QImage qimage(frame.data, frame.cols, frame.rows, frame.step, QImage::Format_RGB888);
+    QImage qimage(frame.data, frame.cols, frame.rows, frame.step, QImage::Format_Grayscale8);
+
+
+    // Display the QImage in the QLabel
+    ui->webcamlab->setPixmap(QPixmap::fromImage(qimage));
+    ui->webcamlab->setScaledContents(true);
+}
+
