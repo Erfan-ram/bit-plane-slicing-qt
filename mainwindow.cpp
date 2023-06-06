@@ -77,7 +77,7 @@ std::vector<cv::Mat> MainWindow::GenerateBit()
     // Check if a valid image was selected
     if (imagePath.isEmpty()) {
         qDebug() << "No image selected.";
-        return std::vector<cv::Mat>(); // Return an empty vector
+        return std::vector<cv::Mat>();
     }
 
     // Load the image using OpenCV
@@ -86,7 +86,7 @@ std::vector<cv::Mat> MainWindow::GenerateBit()
     // Check if the image was loaded successfully
     if (image.empty()) {
         qDebug() << "Failed to load image!";
-        return std::vector<cv::Mat>(); // Return an empty vector
+        return std::vector<cv::Mat>();
     }
 
     // Perform bit plane slicing
@@ -106,36 +106,6 @@ std::vector<cv::Mat> MainWindow::GenerateBit()
 
     return BitPlaneimages;
 }
-
-//void MainWindow::updateFrame()
-//{
-//    cv::Mat frame;
-//    capture >> frame;
-//    if (frame.empty())
-//        return;
-
-//    // Convert the image format for processing
-//    cv::cvtColor(frame, frame, cv::COLOR_BGR2GRAY);
-
-//    cv::Mat bitPlanes[8];
-//       for (int plane = 0; plane < 8; ++plane) {
-//           bitPlanes[plane] = cv::Mat(frame.rows, frame.cols, CV_8UC1);
-//           for (int i = 0; i < frame.rows; ++i) {
-//               for (int j = 0; j < frame.cols; ++j) {
-//                   bitPlanes[plane].at<uchar>(i, j) = (frame.at<uchar>(i, j) >> plane) & 1;
-//                   bitPlanes[plane].at<uchar>(i, j) *= 255;
-//               }
-//           }
-////           displayImage(bitPlanes[plane]);
-//       }
-
-//    // Create a QImage from the OpenCV frame
-//    QImage qimage(redFrame.data, redFrame.cols, redFrame.rows, redFrame.step, QImage::Format_RGB888);
-
-//    // Display the QImage in the QLabel
-//    ui->webcamlab->setPixmap(QPixmap::fromImage(qimage));
-//    ui->webcamlab->setScaledContents(true);
-//}
 
 void MainWindow::OpenWebcamWindow(){
     ui->BitPlane->setEnabled(false);

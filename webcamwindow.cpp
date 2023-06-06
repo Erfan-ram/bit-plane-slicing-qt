@@ -48,9 +48,6 @@ void webcamwindow::updateFrame()
             return;
         }
 
-        // Convert the image format for displaying in the QLabel
-        // cv::cvtColor(frame, frame, cv::COLOR_BGR2RGB);
-
         cv::cvtColor(frame, frame, cv::COLOR_BGR2GRAY);
 
         //**** 8th-bitplane
@@ -70,7 +67,6 @@ void webcamwindow::updateFrame()
         //*******
 
         // Create a QImage from the OpenCV frame
-
         QImage qimage(slicedImage.data, slicedImage.cols, slicedImage.rows, slicedImage.step, QImage::Format_Grayscale8);
 
 
