@@ -53,9 +53,25 @@ void webcamwindow::updateFrame()
 
         cv::cvtColor(frame, frame, cv::COLOR_BGR2GRAY);
 
+        //**** 8th-bitplane
+        cv::Mat slicedImage = cv::Mat::zeros(frame.size(), CV_8UC1);
+
+           for (int i = 0; i < frame.rows; i++)
+           {
+               for (int j = 0; j < frame.cols; j++)
+               {
+                   // Extract the bit at the specified plane
+                   slicedImage.at<uchar>(i, j) = (frame.at<uchar>(i, j) >> 7) & 1;
+
+                   // Optionally, scale the pixel value to 0-255 for visualization
+                   slicedImage.at<uchar>(i, j) *= 255;
+               }
+           }
+        //*******
+
         // Create a QImage from the OpenCV frame
-        // QImage qimage(frame.data, frame.cols, frame.rows, frame.step, QImage::Format_RGB888);
-        QImage qimage(frame.data, frame.cols, frame.rows, frame.step, QImage::Format_Grayscale8);
+
+        QImage qimage(slicedImage.data, slicedImage.cols, slicedImage.rows, slicedImage.step, QImage::Format_Grayscale8);
 
 
         // Display the QImage in the QLabel

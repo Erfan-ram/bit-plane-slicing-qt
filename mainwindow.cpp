@@ -27,7 +27,7 @@ void MainWindow::onClicked(){
 QObject* ChosenBut = QObject::sender();
 
 if (ChosenBut==ui->BitPlane){
-    GenerateBit();
+    BitPlaneimages = GenerateBit();
     if (BitPlaneimages.empty()==true){
         qDebug() <<"vector empty";
         return ;
