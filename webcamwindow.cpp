@@ -1,6 +1,8 @@
 #include "webcamwindow.h"
 #include "ui_webcamwindow.h"
 
+#include<QDebug>
+
 webcamwindow::webcamwindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::webcamwindow)
@@ -8,6 +10,11 @@ webcamwindow::webcamwindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle("Live webcam");
     webcamActivated = false;
+
+    BitPosition = 7;
+    ui->bitScrollBar->setValue(BitPosition);
+
+    connect(ui->bitScrollBar,&QScrollBar::valueChanged,this,&webcamwindow::setBitPosition);
 
 }
 
@@ -50,7 +57,7 @@ void webcamwindow::updateFrame()
 
         cv::cvtColor(frame, frame, cv::COLOR_BGR2GRAY);
 
-        //**** 8th-bitplane
+        //**** 1-8th-bitplane
         cv::Mat slicedImage = cv::Mat::zeros(frame.size(), CV_8UC1);
 
            for (int i = 0; i < frame.rows; i++)
@@ -58,7 +65,7 @@ void webcamwindow::updateFrame()
                for (int j = 0; j < frame.cols; j++)
                {
                    // Extract the bit at the specified plane
-                   slicedImage.at<uchar>(i, j) = (frame.at<uchar>(i, j) >> 7) & 1;
+                   slicedImage.at<uchar>(i, j) = (frame.at<uchar>(i, j) >> BitPosition) & 1;
 
                    // Optionally, scale the pixel value to 0-255 for visualization
                    slicedImage.at<uchar>(i, j) *= 255;
@@ -69,9 +76,13 @@ void webcamwindow::updateFrame()
         // Create a QImage from the OpenCV frame
         QImage qimage(slicedImage.data, slicedImage.cols, slicedImage.rows, slicedImage.step, QImage::Format_Grayscale8);
 
-
         // Display the QImage in the QLabel
         ui->webcamlab->setPixmap(QPixmap::fromImage(qimage));
         ui->webcamlab->setScaledContents(true);
     }
+}
+
+void webcamwindow::setBitPosition(int value){
+    BitPosition = value;
+    qDebug() <<value;
 }

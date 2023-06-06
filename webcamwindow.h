@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QTimer>
+#include <QScrollBar>
 #include <opencv2/opencv.hpp>
 
 namespace Ui {
@@ -21,12 +22,15 @@ public:
 
 private slots:
     void updateFrame();
+    void setBitPosition(int value);
 
 private:
     Ui::webcamwindow *ui;
     cv::VideoCapture capture;
     QTimer timer;
     bool webcamActivated;
+    int BitPosition;
+    QScrollBar *bitScrollBar;
 };
 
 #endif // WEBCAMWINDOW_H

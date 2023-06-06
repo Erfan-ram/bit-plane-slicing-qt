@@ -6,25 +6,47 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>486</width>
-    <height>481</height>
+    <width>572</width>
+    <height>561</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLabel" name="webcamlab">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>50</y>
-     <width>351</width>
-     <height>361</height>
+     <x>40</x>
+     <y>40</y>
+     <width>491</width>
+     <height>501</height>
     </rect>
    </property>
-   <property name="text">
-    <string/>
-   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>30</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="webcamlab">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QScrollBar" name="bitScrollBar">
+      <property name="maximum">
+       <number>7</number>
+      </property>
+      <property name="pageStep">
+       <number>10</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
