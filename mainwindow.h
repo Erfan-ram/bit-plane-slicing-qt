@@ -32,7 +32,7 @@ private slots:
     void stopFrameCapture();
     void updateFrame();
     void setBitPosition(int value);
-    QImage GenerateBitSlice (cv::Mat ,int);
+    cv::Mat GenerateBitSlice (cv::Mat ,int);
 
 
 private:

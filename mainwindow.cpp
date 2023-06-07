@@ -10,7 +10,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->BitPlane, &QPushButton::clicked, this, &MainWindow::onClicked);
     connect(ui->LIveBut, &QPushButton::clicked, this , &MainWindow::onClicked);
 
-    //**************
     webcamActivated = false;
 
     BitPosition = 7;
@@ -102,16 +101,10 @@ std::vector<cv::Mat> MainWindow::GenerateBit()
     if (!BitPlaneimages.empty())
         BitPlaneimages.clear();
 
-    for (int plane = 0; plane < 8; ++plane) {
-        cv::Mat slicedImage(image.rows, image.cols, CV_8UC1);
-        for (int i = 0; i < image.rows; ++i) {
-            for (int j = 0; j < image.cols; ++j) {
-                slicedImage.at<uchar>(i, j) = (image.at<uchar>(i, j) >> plane) & 1;
-                slicedImage.at<uchar>(i, j) *= 255;
-            }
-        }
-        BitPlaneimages.push_back(slicedImage);
-    }
+    cv::Mat slicedImage(image.rows, image.cols, CV_8UC1);
+
+    for (int plane = 0; plane < 8; ++plane)
+        BitPlaneimages.push_back(GenerateBitSlice(image,plane));
 
     return BitPlaneimages;
 }
@@ -150,20 +143,8 @@ void MainWindow::updateFrame()
 
         cv::cvtColor(frame, frame, cv::COLOR_BGR2GRAY);
 
-        //**** 1-8th-bitplane
-        cv::Mat slicedImage = cv::Mat::zeros(frame.size(), CV_8UC1);
+        cv::Mat slicedImage = GenerateBitSlice(frame,BitPosition);
 
-           for (int i = 0; i < frame.rows; i++)
-           {
-               for (int j = 0; j < frame.cols; j++)
-               {
-                   slicedImage.at<uchar>(i, j) = (frame.at<uchar>(i, j) >> BitPosition) & 1;
-                   slicedImage.at<uchar>(i, j) *= 255;
-               }
-           }
-        //*******
-
-        // Create a QImage from the OpenCV frame
         QImage qimage(slicedImage.data, slicedImage.cols, slicedImage.rows, slicedImage.step, QImage::Format_Grayscale8);
 
         ui->webcamlab->setPixmap(QPixmap::fromImage(qimage));
@@ -175,17 +156,13 @@ void MainWindow::setBitPosition(int value){
     BitPosition = value;
 }
 
-QImage MainWindow::GenerateBitSlice(cv::Mat frame,int Bitpos){
+cv::Mat MainWindow::GenerateBitSlice(cv::Mat frame,int Bitpos){
 
+    if (frame.empty())
+    {
+        return cv::Mat();
+    }
 
-//    if (frame.empty())
-//    {
-//        return ;
-//    }
-
-    cv::cvtColor(frame, frame, cv::COLOR_BGR2GRAY);
-
-    //**** 1-8th-bitplane
     cv::Mat slicedImage = cv::Mat::zeros(frame.size(), CV_8UC1);
 
        for (int i = 0; i < frame.rows; i++)
@@ -196,15 +173,6 @@ QImage MainWindow::GenerateBitSlice(cv::Mat frame,int Bitpos){
                slicedImage.at<uchar>(i, j) *= 255;
            }
        }
-    //*******
 
-    // Create a QImage from the OpenCV frame
-    QImage qimage(slicedImage.data, slicedImage.cols, slicedImage.rows, slicedImage.step, QImage::Format_Grayscale8);
-
-//    return qimage;
-
-//    ui->deslabel->setPixmap(QPixmap::fromImage(qimage));
-//    ui->deslabel->setScaledContents(true);
-
-    return qimage;
+    return slicedImage;
 }
