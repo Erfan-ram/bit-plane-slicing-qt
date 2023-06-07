@@ -12,6 +12,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     webcamActivated = false;
     thresholdActivated = false;
+    ui->Bitcheckbox->setEnabled(false);
+    ui->threscheckbox->setEnabled(false);
+    ui->thres_invcheckbox->setEnabled(false);
 
     BitPosition = 7;
     ui->bitScrollBar->setValue(BitPosition);
@@ -63,6 +66,9 @@ else if (ChosenBut==ui->LIveBut){
         ui->Bitcheckbox->setChecked(false);
         ui->threscheckbox->setChecked(false);
         ui->thres_invcheckbox->setChecked(false);
+        ui->Bitcheckbox->setEnabled(false);
+        ui->threscheckbox->setEnabled(false);
+        ui->thres_invcheckbox->setEnabled(false);
     }
     else{
         webcamActivated = true;
@@ -191,7 +197,7 @@ cv::Mat MainWindow::GenerateBitSlice(cv::Mat frame,int Bitpos){
 
 void MainWindow::updateThresholdFrame(){
 
-    if (thresholdActivated)
+    if (thresholdActivated || thres_invActivated)
     {
         cv::Mat frame;
         capture >> frame;
@@ -205,7 +211,7 @@ void MainWindow::updateThresholdFrame(){
 
         cv::Mat slicedImage = cv::Mat::zeros(frame.size(), CV_8UC1);
 
-        cv::threshold(frame,slicedImage,Threshold,255,cv::THRESH_BINARY);
+        cv::threshold(frame,slicedImage,Threshold,255,th_binary);
 
         QImage qimage(slicedImage.data, slicedImage.cols, slicedImage.rows, slicedImage.step, QImage::Format_Grayscale8);
 
@@ -237,6 +243,7 @@ void MainWindow::handleCheckboxClicked()
         ui->thres_invcheckbox->setEnabled(false);
 
         ui->bitScrollBar->setRange(0,255);
+        th_binary=0;
         startFrameCapture(2);
 
 
@@ -249,6 +256,7 @@ void MainWindow::handleCheckboxClicked()
         ui->Bitcheckbox->setEnabled(false);
 
         ui->bitScrollBar->setRange(0,255);
+        th_binary=1;
         startFrameCapture(2);
 
 
@@ -266,11 +274,17 @@ void MainWindow::handleCheckboxClicked()
 
 void MainWindow::setBitPosition(int value){
 
-    if (bitsliceActivated)
+    if (bitsliceActivated){
         BitPosition = value;
+        ui->bitlabel->setText("Bit Position : "+QString::number(BitPosition));
+    }
 
-    else if (thresholdActivated)
+    else if (thresholdActivated){
         Threshold = value;
-
-    qDebug()<<Threshold;
+        ui->threshlabel->setText("Threshold : "+QString::number(Threshold));
+    }
+    else if (thres_invActivated){
+        Threshold = value;
+        ui->threshlabel->setText("Threshold : "+QString::number(Threshold));
+    }
 }
