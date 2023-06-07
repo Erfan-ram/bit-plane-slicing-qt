@@ -64,10 +64,7 @@ void webcamwindow::updateFrame()
            {
                for (int j = 0; j < frame.cols; j++)
                {
-                   // Extract the bit at the specified plane
                    slicedImage.at<uchar>(i, j) = (frame.at<uchar>(i, j) >> BitPosition) & 1;
-
-                   // Optionally, scale the pixel value to 0-255 for visualization
                    slicedImage.at<uchar>(i, j) *= 255;
                }
            }
@@ -76,7 +73,6 @@ void webcamwindow::updateFrame()
         // Create a QImage from the OpenCV frame
         QImage qimage(slicedImage.data, slicedImage.cols, slicedImage.rows, slicedImage.step, QImage::Format_Grayscale8);
 
-        // Display the QImage in the QLabel
         ui->webcamlab->setPixmap(QPixmap::fromImage(qimage));
         ui->webcamlab->setScaledContents(true);
     }

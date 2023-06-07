@@ -39,12 +39,11 @@ if (ChosenBut==ui->BitPlane){
         for (eachBitSlice= BitPlaneimages.begin() ;eachBitSlice != BitPlaneimages.end() ; ++eachBitSlice, ++eachLabel ) {
             QLabel* label = *eachLabel;
 
-
             QImage convertedImage(eachBitSlice->data, eachBitSlice->cols, eachBitSlice->rows, eachBitSlice->step, QImage::Format_Grayscale8);
 
             label->setPixmap(QPixmap::fromImage(convertedImage));
-//            cv::imshow("bit",*eachBitSlice);
-//            cv::waitKey(0);
+            cv::imshow("bit",*eachBitSlice);
+            cv::waitKey(0);
         }
     }
 }
@@ -71,25 +70,20 @@ void MainWindow::setupLabels(){
 
 std::vector<cv::Mat> MainWindow::GenerateBit()
 {
-    // Open file dialog to choose an image
     QString imagePath = QFileDialog::getOpenFileName(this, "Open Image", "", "Image Files (*.png *.jpg *.jpeg)");
 
-    // Check if a valid image was selected
     if (imagePath.isEmpty()) {
         qDebug() << "No image selected.";
         return std::vector<cv::Mat>();
     }
 
-    // Load the image using OpenCV
     cv::Mat image = cv::imread(imagePath.toStdString(), cv::IMREAD_GRAYSCALE);
 
-    // Check if the image was loaded successfully
     if (image.empty()) {
         qDebug() << "Failed to load image!";
         return std::vector<cv::Mat>();
     }
 
-    // Perform bit plane slicing
     if (!BitPlaneimages.empty())
         BitPlaneimages.clear();
 
