@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1329</width>
-    <height>659</height>
+    <width>1535</width>
+    <height>685</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1535</width>
+    <height>685</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1535</width>
+    <height>685</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -17,8 +29,8 @@
    <widget class="QPushButton" name="BitPlane">
     <property name="geometry">
      <rect>
-      <x>1130</x>
-      <y>110</y>
+      <x>1040</x>
+      <y>20</y>
       <width>181</width>
       <height>81</height>
      </rect>
@@ -35,7 +47,7 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>1101</width>
+      <width>971</width>
       <height>591</height>
      </rect>
     </property>
@@ -46,7 +58,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <property name="spacing">
-        <number>40</number>
+        <number>20</number>
        </property>
        <item>
         <widget class="QLabel" name="bitPlane1">
@@ -81,7 +93,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <property name="spacing">
-        <number>40</number>
+        <number>20</number>
        </property>
        <item>
         <widget class="QLabel" name="bitPlane5">
@@ -118,8 +130,8 @@
    <widget class="QPushButton" name="LIveBut">
     <property name="geometry">
      <rect>
-      <x>1130</x>
-      <y>450</y>
+      <x>1320</x>
+      <y>20</y>
       <width>181</width>
       <height>81</height>
      </rect>
@@ -131,13 +143,67 @@
      <string>Live Mode</string>
     </property>
    </widget>
+   <widget class="QLabel" name="webcamlab">
+    <property name="geometry">
+     <rect>
+      <x>1050</x>
+      <y>110</y>
+      <width>441</width>
+      <height>401</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>1080</x>
+      <y>550</y>
+      <width>401</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="spacing">
+      <number>15</number>
+     </property>
+     <item>
+      <widget class="QScrollBar" name="bitScrollBar">
+       <property name="maximum">
+        <number>7</number>
+       </property>
+       <property name="pageStep">
+        <number>10</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QScrollBar" name="bitScrollBar_2">
+       <property name="maximum">
+        <number>7</number>
+       </property>
+       <property name="pageStep">
+        <number>10</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1329</width>
+     <width>1535</width>
      <height>22</height>
     </rect>
    </property>
