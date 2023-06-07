@@ -11,11 +11,16 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->LIveBut, &QPushButton::clicked, this , &MainWindow::onClicked);
 
     webcamActivated = false;
+    thresholdActivated = false;
 
     BitPosition = 7;
     ui->bitScrollBar->setValue(BitPosition);
 
     connect(ui->bitScrollBar,&QScrollBar::valueChanged,this,&MainWindow::setBitPosition);
+
+    connect(ui->Bitcheckbox,&QCheckBox::clicked,this,&MainWindow::handleCheckboxClicked);
+    connect(ui->threscheckbox,&QCheckBox::clicked,this,&MainWindow::handleCheckboxClicked);
+    connect(ui->thres_invcheckbox,&QCheckBox::clicked,this,&MainWindow::handleCheckboxClicked);
 
 }
 
@@ -51,14 +56,21 @@ if (ChosenBut==ui->BitPlane){
 else if (ChosenBut==ui->LIveBut){
 
     if (webcamActivated){
+        webcamActivated = false;
         ui->BitPlane->setEnabled(true);
         ui->LIveBut->setText("Start Live Mode");
         stopFrameCapture();
+        ui->Bitcheckbox->setChecked(false);
+        ui->threscheckbox->setChecked(false);
+        ui->thres_invcheckbox->setChecked(false);
     }
     else{
+        webcamActivated = true;
         ui->BitPlane->setEnabled(false);
         ui->LIveBut->setText("Stop Live Mode");
-        startFrameCapture();
+        ui->Bitcheckbox->setEnabled(true);
+        ui->threscheckbox->setEnabled(true);
+        ui->thres_invcheckbox->setEnabled(true);
     }
 }
 
@@ -109,29 +121,32 @@ std::vector<cv::Mat> MainWindow::GenerateBit()
     return BitPlaneimages;
 }
 
-void MainWindow::startFrameCapture()
+void MainWindow::startFrameCapture(int mode)
 {
-    webcamActivated = true;
     capture.open(0);
     if (!capture.isOpened())
         {
             std::cout<<"can not open webcam bro";
             return;
         }
-    connect(&timer, &QTimer::timeout, this, &MainWindow::updateFrame);
+    if (mode==1)
+        connect(&timer, &QTimer::timeout, this, &MainWindow::updateBitSliceFrame);
+
+    else
+        connect(&timer, &QTimer::timeout, this, &MainWindow::updateThresholdFrame);
+
     timer.start(33); // 30 FPS
 }
 
 void MainWindow::stopFrameCapture()
 {
-    webcamActivated = false;
     timer.stop();
     capture.release();
 }
 
-void MainWindow::updateFrame()
+void MainWindow::updateBitSliceFrame()
 {
-    if (webcamActivated)
+    if (bitsliceActivated)
     {
         cv::Mat frame;
         capture >> frame;
@@ -152,9 +167,6 @@ void MainWindow::updateFrame()
     }
 }
 
-void MainWindow::setBitPosition(int value){
-    BitPosition = value;
-}
 
 cv::Mat MainWindow::GenerateBitSlice(cv::Mat frame,int Bitpos){
 
@@ -175,4 +187,90 @@ cv::Mat MainWindow::GenerateBitSlice(cv::Mat frame,int Bitpos){
        }
 
     return slicedImage;
+}
+
+void MainWindow::updateThresholdFrame(){
+
+    if (thresholdActivated)
+    {
+        cv::Mat frame;
+        capture >> frame;
+
+        if (frame.empty())
+        {
+            return;
+        }
+
+        cv::cvtColor(frame, frame, cv::COLOR_BGR2GRAY);
+
+        cv::Mat slicedImage = cv::Mat::zeros(frame.size(), CV_8UC1);
+
+        cv::threshold(frame,slicedImage,Threshold,255,cv::THRESH_BINARY);
+
+        QImage qimage(slicedImage.data, slicedImage.cols, slicedImage.rows, slicedImage.step, QImage::Format_Grayscale8);
+
+        ui->webcamlab->setPixmap(QPixmap::fromImage(qimage));
+        ui->webcamlab->setScaledContents(true);
+    }
+}
+
+void MainWindow::handleCheckboxClicked()
+{
+    if (ui->Bitcheckbox->isChecked()) {
+        bitsliceActivated = true;
+        thresholdActivated = false;
+        thres_invActivated = false;
+
+        ui->threscheckbox->setEnabled(false);
+        ui->thres_invcheckbox->setEnabled(false);
+
+        ui->bitScrollBar->setRange(0,7);
+        startFrameCapture(1);
+
+    }
+    else if (ui->threscheckbox->isChecked()) {
+        bitsliceActivated = false;
+        thresholdActivated = true;
+        thres_invActivated = false;
+
+        ui->Bitcheckbox->setEnabled(false);
+        ui->thres_invcheckbox->setEnabled(false);
+
+        ui->bitScrollBar->setRange(0,255);
+        startFrameCapture(2);
+
+
+    } else if (ui->thres_invcheckbox->isChecked()) {
+        bitsliceActivated = false;
+        thresholdActivated = false;
+        thres_invActivated = true;
+
+        ui->threscheckbox->setEnabled(false);
+        ui->Bitcheckbox->setEnabled(false);
+
+        ui->bitScrollBar->setRange(0,255);
+        startFrameCapture(2);
+
+
+    } else {
+        stopFrameCapture();
+        bitsliceActivated = false;
+        thresholdActivated = false;
+        thres_invActivated = false;
+
+        ui->Bitcheckbox->setEnabled(true);
+        ui->threscheckbox->setEnabled(true);
+        ui->thres_invcheckbox->setEnabled(true);
+    }
+}
+
+void MainWindow::setBitPosition(int value){
+
+    if (bitsliceActivated)
+        BitPosition = value;
+
+    else if (thresholdActivated)
+        Threshold = value;
+
+    qDebug()<<Threshold;
 }
