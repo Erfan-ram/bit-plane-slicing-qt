@@ -28,11 +28,13 @@ private slots:
     void setupLabels();
     void onClicked();
     std::vector<cv::Mat> GenerateBit();
-    void startFrameCapture();
+    void startFrameCapture(int);
     void stopFrameCapture();
-    void updateFrame();
+    void updateBitSliceFrame();
+    void updateThresholdFrame();
     void setBitPosition(int value);
     cv::Mat GenerateBitSlice (cv::Mat ,int);
+    void handleCheckboxClicked();
 
 
 private:
@@ -42,7 +44,11 @@ private:
     cv::VideoCapture capture;
     QTimer timer;
     bool webcamActivated;
+    bool bitsliceActivated;
+    bool thresholdActivated;
+    bool thres_invActivated;
     int BitPosition;
+    int Threshold;
     QScrollBar *bitScrollBar;
 };
 #endif // MAINWINDOW_H
