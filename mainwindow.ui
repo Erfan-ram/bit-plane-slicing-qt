@@ -189,14 +189,14 @@
       <number>15</number>
      </property>
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="bitlabel">
        <property name="text">
         <string>Bit Plane =</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="threshlabel">
        <property name="text">
         <string>Thereshold  =</string>
        </property>

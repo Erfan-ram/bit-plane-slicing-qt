@@ -50,5 +50,6 @@ private:
     int BitPosition;
     int Threshold;
     QScrollBar *bitScrollBar;
+    int th_binary;
 };
 #endif // MAINWINDOW_H
