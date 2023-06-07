@@ -32,13 +32,13 @@ private slots:
     void stopFrameCapture();
     void updateFrame();
     void setBitPosition(int value);
+    QImage GenerateBitSlice (cv::Mat ,int);
 
 
 private:
     Ui::MainWindow *ui;
     std::vector<cv::Mat> BitPlaneimages;
     std::vector<QLabel*> BitPlaneLables;
-//    webcamwindow* webOBJ;
     cv::VideoCapture capture;
     QTimer timer;
     bool webcamActivated;
