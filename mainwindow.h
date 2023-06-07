@@ -3,10 +3,14 @@
 
 #include <QMainWindow>
 #include <QLabel>
-#include <vector>
-//#include <opencv2/opencv.hpp>
+//#include <QDialog>
+#include <QTimer>
+#include <QScrollBar>
+#include <QDebug>
+#include <QFileDialog>
 
-#include "webcamwindow.h"
+#include <vector>
+#include <opencv2/opencv.hpp>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,14 +28,21 @@ private slots:
     void setupLabels();
     void onClicked();
     std::vector<cv::Mat> GenerateBit();
-    void OpenWebcamWindow();
-    void closedWebcamWindow();
+    void startFrameCapture();
+    void stopFrameCapture();
+    void updateFrame();
+    void setBitPosition(int value);
 
 
 private:
     Ui::MainWindow *ui;
     std::vector<cv::Mat> BitPlaneimages;
     std::vector<QLabel*> BitPlaneLables;
-    webcamwindow* webOBJ;
+//    webcamwindow* webOBJ;
+    cv::VideoCapture capture;
+    QTimer timer;
+    bool webcamActivated;
+    int BitPosition;
+    QScrollBar *bitScrollBar;
 };
 #endif // MAINWINDOW_H

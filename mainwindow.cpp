@@ -1,20 +1,22 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QFileDialog>
-#include <QDebug>
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     setupLabels();
 
-    webOBJ = new webcamwindow(this);
-
     connect(ui->BitPlane, &QPushButton::clicked, this, &MainWindow::onClicked);
-    connect(ui->LIveBut, &QPushButton::clicked, this , &MainWindow::OpenWebcamWindow);
-    connect(webOBJ, &webcamwindow::rejected, this, &MainWindow::closedWebcamWindow);
+    connect(ui->LIveBut, &QPushButton::clicked, this , &MainWindow::onClicked);
+
+    //**************
+    webcamActivated = false;
+
+    BitPosition = 7;
+    ui->bitScrollBar->setValue(BitPosition);
+
+    connect(ui->bitScrollBar,&QScrollBar::valueChanged,this,&MainWindow::setBitPosition);
 
 }
 
@@ -45,6 +47,19 @@ if (ChosenBut==ui->BitPlane){
             cv::imshow("bit",*eachBitSlice);
             cv::waitKey(0);
         }
+    }
+}
+else if (ChosenBut==ui->LIveBut){
+
+    if (webcamActivated){
+        ui->BitPlane->setEnabled(true);
+        ui->LIveBut->setText("Start Live Mode");
+        stopFrameCapture();
+    }
+    else{
+        ui->BitPlane->setEnabled(true);
+        ui->LIveBut->setText("Stop Live Mode");
+        startFrameCapture();
     }
 }
 
@@ -101,12 +116,61 @@ std::vector<cv::Mat> MainWindow::GenerateBit()
     return BitPlaneimages;
 }
 
-void MainWindow::OpenWebcamWindow(){
-    ui->BitPlane->setEnabled(false);
-    webOBJ->show();
-    webOBJ->startFrameCapture();
+void MainWindow::startFrameCapture()
+{
+    webcamActivated = true;
+    capture.open(0);
+    if (!capture.isOpened())
+        {
+            std::cout<<"can not open webcam bro";
+            return;
+        }
+    connect(&timer, &QTimer::timeout, this, &MainWindow::updateFrame);
+    timer.start(33); // 30 FPS
 }
-void MainWindow::closedWebcamWindow(){
-    webOBJ->stopFrameCapture();
-    ui->BitPlane->setEnabled(true);
+
+void MainWindow::stopFrameCapture()
+{
+    webcamActivated = false;
+    timer.stop();
+    capture.release();
+}
+
+void MainWindow::updateFrame()
+{
+    if (webcamActivated)
+    {
+        cv::Mat frame;
+        capture >> frame;
+
+        if (frame.empty())
+        {
+            return;
+        }
+
+        cv::cvtColor(frame, frame, cv::COLOR_BGR2GRAY);
+
+        //**** 1-8th-bitplane
+        cv::Mat slicedImage = cv::Mat::zeros(frame.size(), CV_8UC1);
+
+           for (int i = 0; i < frame.rows; i++)
+           {
+               for (int j = 0; j < frame.cols; j++)
+               {
+                   slicedImage.at<uchar>(i, j) = (frame.at<uchar>(i, j) >> BitPosition) & 1;
+                   slicedImage.at<uchar>(i, j) *= 255;
+               }
+           }
+        //*******
+
+        // Create a QImage from the OpenCV frame
+        QImage qimage(slicedImage.data, slicedImage.cols, slicedImage.rows, slicedImage.step, QImage::Format_Grayscale8);
+
+        ui->webcamlab->setPixmap(QPixmap::fromImage(qimage));
+        ui->webcamlab->setScaledContents(true);
+    }
+}
+
+void MainWindow::setBitPosition(int value){
+    BitPosition = value;
 }
