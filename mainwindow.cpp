@@ -148,6 +148,7 @@ void MainWindow::stopFrameCapture()
 {
     timer.stop();
     capture.release();
+    ui->webcamlab->clear();
 }
 
 void MainWindow::updateBitSliceFrame()
