@@ -28,10 +28,9 @@ private slots:
     void setupLabels();
     void onClicked();
     std::vector<cv::Mat> GenerateBit();
-    void startFrameCapture(int);
+    void startFrameCapture();
     void stopFrameCapture();
-    void updateBitSliceFrame();
-    void updateThresholdFrame();
+    void updateFrames();
     void setBitPosition(int value);
     cv::Mat GenerateBitSlice (cv::Mat ,int);
     void handleCheckboxClicked();

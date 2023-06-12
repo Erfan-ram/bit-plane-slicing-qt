@@ -19,11 +19,15 @@ MainWindow::MainWindow(QWidget *parent)
     BitPosition = 7;
     ui->bitScrollBar->setValue(BitPosition);
 
+    ui->webcamlab->setScaledContents(true);
+
     connect(ui->bitScrollBar,&QScrollBar::valueChanged,this,&MainWindow::setBitPosition);
 
     connect(ui->Bitcheckbox,&QCheckBox::clicked,this,&MainWindow::handleCheckboxClicked);
     connect(ui->threscheckbox,&QCheckBox::clicked,this,&MainWindow::handleCheckboxClicked);
     connect(ui->thres_invcheckbox,&QCheckBox::clicked,this,&MainWindow::handleCheckboxClicked);
+
+    connect(&timer, &QTimer::timeout, this, &MainWindow::updateFrames);
 
 }
 
@@ -127,7 +131,7 @@ std::vector<cv::Mat> MainWindow::GenerateBit()
     return BitPlaneimages;
 }
 
-void MainWindow::startFrameCapture(int mode)
+void MainWindow::startFrameCapture()
 {
     capture.open(0);
     if (!capture.isOpened())
@@ -135,11 +139,6 @@ void MainWindow::startFrameCapture(int mode)
             std::cout<<"can not open webcam bro";
             return;
         }
-    if (mode==1)
-        connect(&timer, &QTimer::timeout, this, &MainWindow::updateBitSliceFrame);
-
-    else
-        connect(&timer, &QTimer::timeout, this, &MainWindow::updateThresholdFrame);
 
     timer.start(33); // 30 FPS
 }
@@ -150,30 +149,6 @@ void MainWindow::stopFrameCapture()
     capture.release();
     ui->webcamlab->clear();
 }
-
-void MainWindow::updateBitSliceFrame()
-{
-    if (bitsliceActivated)
-    {
-        cv::Mat frame;
-        capture >> frame;
-
-        if (frame.empty())
-        {
-            return;
-        }
-
-        cv::cvtColor(frame, frame, cv::COLOR_BGR2GRAY);
-
-        cv::Mat slicedImage = GenerateBitSlice(frame,BitPosition);
-
-        QImage qimage(slicedImage.data, slicedImage.cols, slicedImage.rows, slicedImage.step, QImage::Format_Grayscale8);
-
-        ui->webcamlab->setPixmap(QPixmap::fromImage(qimage));
-        ui->webcamlab->setScaledContents(true);
-    }
-}
-
 
 cv::Mat MainWindow::GenerateBitSlice(cv::Mat frame,int Bitpos){
 
@@ -196,9 +171,29 @@ cv::Mat MainWindow::GenerateBitSlice(cv::Mat frame,int Bitpos){
     return slicedImage;
 }
 
-void MainWindow::updateThresholdFrame(){
+void MainWindow::updateFrames(){
 
-    if (thresholdActivated || thres_invActivated)
+    if (bitsliceActivated)
+    {
+        cv::Mat frame;
+        capture >> frame;
+
+        if (frame.empty())
+        {
+            return;
+        }
+
+        cv::cvtColor(frame, frame, cv::COLOR_BGR2GRAY);
+
+        cv::Mat slicedImage = GenerateBitSlice(frame,BitPosition);
+
+        QImage qimage(slicedImage.data, slicedImage.cols, slicedImage.rows, slicedImage.step, QImage::Format_Grayscale8);
+
+        ui->webcamlab->setPixmap(QPixmap::fromImage(qimage));
+        ui->webcamlab->setScaledContents(true);
+    }
+
+    else if (thresholdActivated || thres_invActivated)
     {
         cv::Mat frame;
         capture >> frame;
@@ -217,7 +212,7 @@ void MainWindow::updateThresholdFrame(){
         QImage qimage(slicedImage.data, slicedImage.cols, slicedImage.rows, slicedImage.step, QImage::Format_Grayscale8);
 
         ui->webcamlab->setPixmap(QPixmap::fromImage(qimage));
-        ui->webcamlab->setScaledContents(true);
+//        ui->webcamlab->setScaledContents(true);
     }
 }
 
@@ -232,7 +227,7 @@ void MainWindow::handleCheckboxClicked()
         ui->thres_invcheckbox->setEnabled(false);
 
         ui->bitScrollBar->setRange(0,7);
-        startFrameCapture(1);
+        startFrameCapture();
 
     }
     else if (ui->threscheckbox->isChecked()) {
@@ -245,7 +240,7 @@ void MainWindow::handleCheckboxClicked()
 
         ui->bitScrollBar->setRange(0,255);
         th_binary=0;
-        startFrameCapture(2);
+        startFrameCapture();
 
 
     } else if (ui->thres_invcheckbox->isChecked()) {
@@ -258,7 +253,7 @@ void MainWindow::handleCheckboxClicked()
 
         ui->bitScrollBar->setRange(0,255);
         th_binary=1;
-        startFrameCapture(2);
+        startFrameCapture();
 
 
     } else {
