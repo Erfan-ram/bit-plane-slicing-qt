@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QLabel>
-//#include <QDialog>
+#include <QSlider>
 #include <QTimer>
 #include <QScrollBar>
 #include <QDebug>
@@ -48,7 +48,7 @@ private:
     bool thres_invActivated;
     int BitPosition;
     int Threshold;
-    QScrollBar *bitScrollBar;
+    QScrollBar *slidebar;
     int th_binary;
 };
 #endif // MAINWINDOW_H

@@ -17,11 +17,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->thres_invcheckbox->setEnabled(false);
 
     BitPosition = 7;
-    ui->bitScrollBar->setValue(BitPosition);
+    ui->slidebar->setValue(BitPosition);
 
     ui->webcamlab->setScaledContents(true);
 
-    connect(ui->bitScrollBar,&QScrollBar::valueChanged,this,&MainWindow::setBitPosition);
+    connect(ui->slidebar,&QSlider::valueChanged,this,&MainWindow::setBitPosition);
 
     connect(ui->Bitcheckbox,&QCheckBox::clicked,this,&MainWindow::handleCheckboxClicked);
     connect(ui->threscheckbox,&QCheckBox::clicked,this,&MainWindow::handleCheckboxClicked);
@@ -226,7 +226,7 @@ void MainWindow::handleCheckboxClicked()
         ui->threscheckbox->setEnabled(false);
         ui->thres_invcheckbox->setEnabled(false);
 
-        ui->bitScrollBar->setRange(0,7);
+        ui->slidebar->setRange(0,7);
         startFrameCapture();
 
     }
@@ -238,7 +238,7 @@ void MainWindow::handleCheckboxClicked()
         ui->Bitcheckbox->setEnabled(false);
         ui->thres_invcheckbox->setEnabled(false);
 
-        ui->bitScrollBar->setRange(0,255);
+        ui->slidebar->setRange(0,255);
         th_binary=0;
         startFrameCapture();
 
@@ -251,7 +251,7 @@ void MainWindow::handleCheckboxClicked()
         ui->threscheckbox->setEnabled(false);
         ui->Bitcheckbox->setEnabled(false);
 
-        ui->bitScrollBar->setRange(0,255);
+        ui->slidebar->setRange(0,255);
         th_binary=1;
         startFrameCapture();
 
