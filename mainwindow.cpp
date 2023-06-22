@@ -5,7 +5,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setupLabels();
+    ui->main_pic->setScaledContents(true);
 
     connect(ui->BitPlane, &QPushButton::clicked, this, &MainWindow::onClicked);
     connect(ui->LIveBut, &QPushButton::clicked, this , &MainWindow::onClicked);
@@ -46,20 +46,11 @@ if (ChosenBut==ui->BitPlane){
         return ;
     }
     else{
-        std::vector<cv::Mat>::iterator eachBitSlice;
-        std::vector<QLabel*>::iterator eachLabel;
-        eachLabel = BitPlaneLables.begin();
-        for (eachBitSlice= BitPlaneimages.begin() ;eachBitSlice != BitPlaneimages.end() ; ++eachBitSlice, ++eachLabel ) {
-            QLabel* label = *eachLabel;
+        QImage qimage(BitPlaneimages[0].data, BitPlaneimages[0].cols, BitPlaneimages[0].rows, BitPlaneimages[0].step, QImage::Format_Grayscale8);
 
-            QImage convertedImage(eachBitSlice->data, eachBitSlice->cols, eachBitSlice->rows, eachBitSlice->step, QImage::Format_Grayscale8);
-
-            label->setPixmap(QPixmap::fromImage(convertedImage));
-//            cv::imshow("bit",*eachBitSlice);
-//            cv::waitKey(0);
+        ui->main_pic->setPixmap(QPixmap::fromImage(qimage));
         }
     }
-}
 else if (ChosenBut==ui->LIveBut){
 
     if (webcamActivated){
@@ -78,35 +69,18 @@ else if (ChosenBut==ui->LIveBut){
         webcamActivated = true;
         ui->BitPlane->setEnabled(false);
 
-        for (auto label : BitPlaneLables) {
-            label->clear();
-        }
+        ui->main_picelabel->clear();
+        ui->main_pic->clear();
 
         ui->LIveBut->setText("Stop Live Mode");
         ui->Bitcheckbox->setEnabled(true);
         ui->threscheckbox->setEnabled(true);
         ui->thres_invcheckbox->setEnabled(true);
+        }
     }
-}
-
 else
     qDebug() <<"not clicekd";
 
-}
-
-void MainWindow::setupLabels(){
-    BitPlaneLables.push_back(ui->bitPlane1);
-    BitPlaneLables.push_back(ui->bitPlane2);
-    BitPlaneLables.push_back(ui->bitPlane3);
-    BitPlaneLables.push_back(ui->bitPlane4);
-    BitPlaneLables.push_back(ui->bitPlane5);
-    BitPlaneLables.push_back(ui->bitPlane6);
-    BitPlaneLables.push_back(ui->bitPlane7);
-    BitPlaneLables.push_back(ui->bitPlane8);
-
-    for (auto label : BitPlaneLables) {
-        label->setScaledContents(true);
-    }
 }
 
 std::vector<cv::Mat> MainWindow::GenerateBit()

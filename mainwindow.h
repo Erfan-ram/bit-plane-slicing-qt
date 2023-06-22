@@ -25,7 +25,6 @@ public:
     ~MainWindow();
 
 private slots:
-    void setupLabels();
     void onClicked();
     std::vector<cv::Mat> GenerateBit();
     void startFrameCapture();
@@ -39,7 +38,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     std::vector<cv::Mat> BitPlaneimages;
-    std::vector<QLabel*> BitPlaneLables;
     cv::VideoCapture capture;
     QTimer timer;
     bool webcamActivated;

@@ -42,91 +42,6 @@
      <string>show Bit Slices</string>
     </property>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>0</y>
-      <width>1221</width>
-      <height>681</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <property name="spacing">
-      <number>90</number>
-     </property>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <property name="spacing">
-        <number>20</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="bitPlane1">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="bitPlane2">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="bitPlane3">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="bitPlane4">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <property name="spacing">
-        <number>20</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="bitPlane5">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="bitPlane6">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="bitPlane7">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="bitPlane8">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
    <widget class="QPushButton" name="LIveBut">
     <property name="geometry">
      <rect>
@@ -148,8 +63,8 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>1221</width>
-      <height>681</height>
+      <width>9</width>
+      <height>481</height>
      </rect>
     </property>
     <property name="text">
@@ -162,7 +77,7 @@
       <x>1300</x>
       <y>470</y>
       <width>140</width>
-      <height>104</height>
+      <height>114</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -215,6 +130,98 @@
      <string>choose to see</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="lastpic">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>310</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="nextpic">
+    <property name="geometry">
+     <rect>
+      <x>1120</x>
+      <y>310</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="bitplanelabel">
+    <property name="geometry">
+     <rect>
+      <x>878</x>
+      <y>600</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="main_picelabel">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>590</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="main_pic">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>70</y>
+      <width>436</width>
+      <height>481</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="bitplanepic_2">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>70</y>
+      <width>435</width>
+      <height>481</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>BitPlane</zorder>
+   <zorder>LIveBut</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>slidebar</zorder>
+   <zorder>bitlabel</zorder>
+   <zorder>lastpic</zorder>
+   <zorder>bitplanepic</zorder>
+   <zorder>main_pic</zorder>
+   <zorder>nextpic</zorder>
+   <zorder>bitplanelabel</zorder>
+   <zorder>main_picelabel</zorder>
+   <zorder>webcamlab</zorder>
+   <zorder>main_pic</zorder>
+   <zorder>bitplanepic_2</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
