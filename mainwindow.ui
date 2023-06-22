@@ -29,8 +29,8 @@
    <widget class="QPushButton" name="BitPlane">
     <property name="geometry">
      <rect>
-      <x>1010</x>
-      <y>600</y>
+      <x>1290</x>
+      <y>100</y>
       <width>151</width>
       <height>71</height>
      </rect>
@@ -46,9 +46,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
-      <width>971</width>
-      <height>631</height>
+      <y>0</y>
+      <width>1221</width>
+      <height>681</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -130,8 +130,8 @@
    <widget class="QPushButton" name="LIveBut">
     <property name="geometry">
      <rect>
-      <x>1190</x>
-      <y>600</y>
+      <x>1300</x>
+      <y>370</y>
       <width>151</width>
       <height>71</height>
      </rect>
@@ -146,10 +146,10 @@
    <widget class="QLabel" name="webcamlab">
     <property name="geometry">
      <rect>
-      <x>1030</x>
-      <y>20</y>
-      <width>441</width>
-      <height>421</height>
+      <x>10</x>
+      <y>0</y>
+      <width>1221</width>
+      <height>681</height>
      </rect>
     </property>
     <property name="text">
@@ -159,39 +159,10 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>990</x>
-      <y>480</y>
-      <width>141</width>
-      <height>101</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
-     <property name="spacing">
-      <number>15</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="bitlabel">
-       <property name="text">
-        <string>Bit Plane =</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="threshlabel">
-       <property name="text">
-        <string>Thereshold  =</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>1390</x>
-      <y>600</y>
+      <x>1300</x>
+      <y>470</y>
       <width>140</width>
-      <height>83</height>
+      <height>104</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -221,14 +192,27 @@
    <widget class="QSlider" name="slidebar">
     <property name="geometry">
      <rect>
-      <x>1120</x>
-      <y>500</y>
-      <width>391</width>
-      <height>61</height>
+      <x>1240</x>
+      <y>600</y>
+      <width>281</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="bitlabel">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>580</y>
+      <width>139</width>
+      <height>42</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>choose to see</string>
     </property>
    </widget>
   </widget>

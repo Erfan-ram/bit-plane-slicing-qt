@@ -55,8 +55,8 @@ if (ChosenBut==ui->BitPlane){
             QImage convertedImage(eachBitSlice->data, eachBitSlice->cols, eachBitSlice->rows, eachBitSlice->step, QImage::Format_Grayscale8);
 
             label->setPixmap(QPixmap::fromImage(convertedImage));
-            cv::imshow("bit",*eachBitSlice);
-            cv::waitKey(0);
+//            cv::imshow("bit",*eachBitSlice);
+//            cv::waitKey(0);
         }
     }
 }
@@ -77,6 +77,11 @@ else if (ChosenBut==ui->LIveBut){
     else{
         webcamActivated = true;
         ui->BitPlane->setEnabled(false);
+
+        for (auto label : BitPlaneLables) {
+            label->clear();
+        }
+
         ui->LIveBut->setText("Stop Live Mode");
         ui->Bitcheckbox->setEnabled(true);
         ui->threscheckbox->setEnabled(true);
@@ -277,10 +282,10 @@ void MainWindow::setBitPosition(int value){
 
     else if (thresholdActivated){
         Threshold = value;
-        ui->threshlabel->setText("Threshold : "+QString::number(Threshold));
+        ui->bitlabel->setText("Threshold : "+QString::number(Threshold));
     }
     else if (thres_invActivated){
         Threshold = value;
-        ui->threshlabel->setText("Threshold : "+QString::number(Threshold));
+        ui->bitlabel->setText("Threshold inv: "+QString::number(Threshold));
     }
 }
