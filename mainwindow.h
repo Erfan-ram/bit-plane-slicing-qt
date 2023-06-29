@@ -49,5 +49,6 @@ private:
     int Threshold;
     QScrollBar *slidebar;
     int th_binary;
+    int onBitplane;
 };
 #endif // MAINWINDOW_H

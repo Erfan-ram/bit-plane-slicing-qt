@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->main_pic->setScaledContents(true);
+    onBitplane=0;
 
     connect(ui->BitPlane, &QPushButton::clicked, this, &MainWindow::onClicked);
     connect(ui->LIveBut, &QPushButton::clicked, this , &MainWindow::onClicked);
@@ -275,10 +276,22 @@ void MainWindow::changePicture(){
     QObject *next_last = QObject::sender();
 
     if (next_last == ui->nextpic){
-        qDebug() << "hey man next";
+        onBitplane++;
+        if (onBitplane>7){
+            onBitplane--;
+            return;
+        }
     }
     else{
-
+        onBitplane--;
+        if (onBitplane<0){
+            onBitplane++;
+            return;
+        }
     }
+
+    QImage selectedPlane(BitPlaneimages[onBitplane].data, BitPlaneimages[onBitplane].cols, BitPlaneimages[onBitplane].rows, BitPlaneimages[onBitplane].step, QImage::Format_Grayscale8);
+    ui->bitplanelapic->setPixmap(QPixmap::fromImage(selectedPlane));
+    ui->bitplanelabel->setText("bitplane number " + QString::number(onBitplane));
 
 }
