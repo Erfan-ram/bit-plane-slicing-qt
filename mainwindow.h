@@ -50,5 +50,6 @@ private:
     QScrollBar *slidebar;
     int th_binary;
     int onBitplane;
+    bool initial;
 };
 #endif // MAINWINDOW_H

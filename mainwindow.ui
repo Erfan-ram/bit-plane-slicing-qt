@@ -167,7 +167,7 @@
      <rect>
       <x>878</x>
       <y>600</y>
-      <width>111</width>
+      <width>191</width>
       <height>31</height>
      </rect>
     </property>
@@ -204,7 +204,7 @@
    <widget class="QLabel" name="bitplanelapic">
     <property name="geometry">
      <rect>
-      <x>620</x>
+      <x>700</x>
       <y>70</y>
       <width>435</width>
       <height>481</height>

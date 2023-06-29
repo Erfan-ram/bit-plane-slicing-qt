@@ -6,7 +6,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->main_pic->setScaledContents(true);
+    ui->bitplanelapic->setScaledContents(true);
+    ui->lastpic->setEnabled(false);
+    ui->nextpic->setEnabled(false);
     onBitplane=0;
+    initial=false;
 
     connect(ui->BitPlane, &QPushButton::clicked, this, &MainWindow::onClicked);
     connect(ui->LIveBut, &QPushButton::clicked, this , &MainWindow::onClicked);
@@ -56,6 +60,8 @@ if (ChosenBut==ui->BitPlane){
 
         QImage original_image(BitPlaneimages[8].data, BitPlaneimages[8].cols, BitPlaneimages[8].rows, BitPlaneimages[8].step, QImage::Format_Grayscale8);
         ui->main_pic->setPixmap(QPixmap::fromImage(original_image));
+
+        changePicture();
         }
     }
 else if (ChosenBut==ui->LIveBut){
@@ -78,11 +84,16 @@ else if (ChosenBut==ui->LIveBut){
 
         ui->main_picelabel->clear();
         ui->main_pic->clear();
+        ui->bitplanelabel->clear();
+        ui->bitplanelapic->clear();
 
         ui->LIveBut->setText("Stop Live Mode");
         ui->Bitcheckbox->setEnabled(true);
         ui->threscheckbox->setEnabled(true);
         ui->thres_invcheckbox->setEnabled(true);
+
+        ui->lastpic->setEnabled(false);
+        ui->nextpic->setEnabled(false);
         }
     }
 else
@@ -273,20 +284,24 @@ void MainWindow::setBitPosition(int value){
 }
 
 void MainWindow::changePicture(){
-    QObject *next_last = QObject::sender();
 
-    if (next_last == ui->nextpic){
-        onBitplane++;
-        if (onBitplane>7){
-            onBitplane--;
-            return;
-        }
-    }
-    else{
-        onBitplane--;
-        if (onBitplane<0){
+    if(initial)
+    {
+        QObject *next_last = QObject::sender();
+
+        if (next_last == ui->nextpic){
             onBitplane++;
-            return;
+            if (onBitplane>7){
+                onBitplane--;
+                return;
+            }
+        }
+        else{
+            onBitplane--;
+            if (onBitplane<0){
+                onBitplane++;
+                return;
+            }
         }
     }
 
@@ -294,4 +309,5 @@ void MainWindow::changePicture(){
     ui->bitplanelapic->setPixmap(QPixmap::fromImage(selectedPlane));
     ui->bitplanelabel->setText("bitplane number " + QString::number(onBitplane));
 
+    initial=true;
 }
