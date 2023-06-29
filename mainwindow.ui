@@ -61,10 +61,10 @@
    <widget class="QLabel" name="webcamlab">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>110</x>
       <y>0</y>
-      <width>9</width>
-      <height>481</height>
+      <width>1071</width>
+      <height>681</height>
      </rect>
     </property>
     <property name="text">
@@ -131,29 +131,35 @@
     </property>
    </widget>
    <widget class="QPushButton" name="lastpic">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>310</y>
+      <x>10</x>
+      <y>330</y>
       <width>89</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>last</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="nextpic">
     <property name="geometry">
      <rect>
-      <x>1120</x>
-      <y>310</y>
+      <x>1200</x>
+      <y>330</y>
       <width>89</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>next</string>
     </property>
    </widget>
    <widget class="QLabel" name="bitplanelabel">
@@ -195,7 +201,7 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="bitplanepic_2">
+   <widget class="QLabel" name="bitplanelapic">
     <property name="geometry">
      <rect>
       <x>620</x>
@@ -214,14 +220,12 @@
    <zorder>slidebar</zorder>
    <zorder>bitlabel</zorder>
    <zorder>lastpic</zorder>
-   <zorder>bitplanepic</zorder>
-   <zorder>main_pic</zorder>
    <zorder>nextpic</zorder>
    <zorder>bitplanelabel</zorder>
    <zorder>main_picelabel</zorder>
    <zorder>webcamlab</zorder>
    <zorder>main_pic</zorder>
-   <zorder>bitplanepic_2</zorder>
+   <zorder>bitplanelapic</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

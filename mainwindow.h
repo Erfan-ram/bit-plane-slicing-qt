@@ -33,6 +33,7 @@ private slots:
     void setBitPosition(int value);
     cv::Mat GenerateBitSlice (cv::Mat ,int);
     void handleCheckboxClicked();
+    void changePicture();
 
 
 private:

@@ -27,6 +27,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->threscheckbox,&QCheckBox::clicked,this,&MainWindow::handleCheckboxClicked);
     connect(ui->thres_invcheckbox,&QCheckBox::clicked,this,&MainWindow::handleCheckboxClicked);
 
+    //next
+    connect(ui->nextpic,&QPushButton::clicked,this,&MainWindow::changePicture);
+    connect(ui->lastpic,&QPushButton::clicked,this,&MainWindow::changePicture);
+
     connect(&timer, &QTimer::timeout, this, &MainWindow::updateFrames);
 
 }
@@ -46,9 +50,11 @@ if (ChosenBut==ui->BitPlane){
         return ;
     }
     else{
-        QImage qimage(BitPlaneimages[0].data, BitPlaneimages[0].cols, BitPlaneimages[0].rows, BitPlaneimages[0].step, QImage::Format_Grayscale8);
+        ui->lastpic->setEnabled(true);
+        ui->nextpic->setEnabled(true);
 
-        ui->main_pic->setPixmap(QPixmap::fromImage(qimage));
+        QImage original_image(BitPlaneimages[8].data, BitPlaneimages[8].cols, BitPlaneimages[8].rows, BitPlaneimages[8].step, QImage::Format_Grayscale8);
+        ui->main_pic->setPixmap(QPixmap::fromImage(original_image));
         }
     }
 else if (ChosenBut==ui->LIveBut){
@@ -107,6 +113,7 @@ std::vector<cv::Mat> MainWindow::GenerateBit()
     for (int plane = 0; plane < 8; ++plane)
         BitPlaneimages.push_back(GenerateBitSlice(image,plane));
 
+    BitPlaneimages.push_back(image);
     return BitPlaneimages;
 }
 
@@ -262,4 +269,16 @@ void MainWindow::setBitPosition(int value){
         Threshold = value;
         ui->bitlabel->setText("Threshold inv: "+QString::number(Threshold));
     }
+}
+
+void MainWindow::changePicture(){
+    QObject *next_last = QObject::sender();
+
+    if (next_last == ui->nextpic){
+        qDebug() << "hey man next";
+    }
+    else{
+
+    }
+
 }
